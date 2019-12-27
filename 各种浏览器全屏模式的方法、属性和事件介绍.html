@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/apple-touch-icon-next.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":true,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="浏览器全屏模式的启动函数requestFullscreen仍然需要附带各浏览器的 js 方言前缀，相信下面这段代码需要你花大量的搜索才能凑齐：">
+<meta name="keywords" content="浏览器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="各种浏览器全屏模式的方法、属性和事件介绍">
+<meta property="og:url" content="https://dctxf.com/各种浏览器全屏模式的方法、属性和事件介绍.html">
+<meta property="og:site_name" content="门口摔倒的老大爷">
+<meta property="og:description" content="浏览器全屏模式的启动函数requestFullscreen仍然需要附带各浏览器的 js 方言前缀，相信下面这段代码需要你花大量的搜索才能凑齐：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-05-20T03:32:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="各种浏览器全屏模式的方法、属性和事件介绍">
+<meta name="twitter:description" content="浏览器全屏模式的启动函数requestFullscreen仍然需要附带各浏览器的 js 方言前缀，相信下面这段代码需要你花大量的搜索才能凑齐：">
+  <link rel="alternate" href="/rss.xml" title="门口摔倒的老大爷" type="application/atom+xml">
+  <link rel="canonical" href="https://dctxf.com/各种浏览器全屏模式的方法、属性和事件介绍">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>各种浏览器全屏模式的方法、属性和事件介绍 | 门口摔倒的老大爷</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9ef591dac562902e43858b296afe9979";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+  <style>
+    #jinrishici-sentence{
+      background-color:#fff;
+      border-radius: initial;
+      box-shadow: 0 2px 20px 0 rgba(0,0,0,0.06);
+      min-height: auto;
+      padding: 12px;
+    }
+  </style>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">门口摔倒的老大爷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">40</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">5</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">58</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="jinrishici-sentence">正在加载今日诗词....</div>
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dctxf.com/各种浏览器全屏模式的方法、属性和事件介绍.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dctxf">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="门口摔倒的老大爷">
+    </span>
+      <header class="post-header">
+
+        
+          <h2 class="post-title" itemprop="name headline">各种浏览器全屏模式的方法、属性和事件介绍
+
+            
+          </h2>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2016-01-07 13:09:59" itemprop="dateCreated datePublished" datetime="2016-01-07T13:09:59+08:00">2016-01-07</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2017-05-20 11:32:32" itemprop="dateModified" datetime="2017-05-20T11:32:32+08:00">2017-05-20</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端/" itemprop="url" rel="index"><span itemprop="name">前端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/各种浏览器全屏模式的方法、属性和事件介绍.html#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="各种浏览器全屏模式的方法、属性和事件介绍.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>浏览器全屏模式的启动函数<code>requestFullscreen</code>仍然需要附带各浏览器的 js 方言前缀，相信下面这段代码需要你花大量的搜索才能凑齐：</p>
+</blockquote>
+<a id="more"></a>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//判断各种浏览器，找到正确的方法</span><br><span class="line">function launchFullscreen(element) &#123;</span><br><span class="line">  if(element.requestFullscreen) &#123;</span><br><span class="line">    element.requestFullscreen();</span><br><span class="line">  &#125; else if(element.mozRequestFullScreen) &#123;</span><br><span class="line">    element.mozRequestFullScreen();</span><br><span class="line">  &#125; else if(element.webkitRequestFullscreen) &#123;</span><br><span class="line">    element.webkitRequestFullscreen();</span><br><span class="line">  &#125; else if(element.msRequestFullscreen) &#123;</span><br><span class="line">    element.msRequestFullscreen();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动全屏"><a href="#启动全屏" class="headerlink" title="启动全屏"></a>启动全屏</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">launchFullScreen(document.documentElement); // 整个网页</span><br><span class="line">launchFullScreen(document.getElementById(&quot;videoElement&quot;)); // 某个页面元素</span><br></pre></td></tr></table></figure>
+
+<p>对你想要全屏显示的页面元素调用全屏方法，浏览器窗口就会变成全屏，但会先请求用户允许全屏模式。要注意，用户很有可能会拒绝全屏模式。如果用户运行全屏模式，则浏览器的工具条等按钮菜单都会隐藏，你的页面会覆盖整个屏幕。</p>
+<h2 id="退出全屏模式"><a href="#退出全屏模式" class="headerlink" title="退出全屏模式"></a>退出全屏模式</h2><blockquote>
+<p>这个<code>exitFullscreen</code>方法(也需要加浏览器前缀)会让浏览器退出全屏模式，变成正常模式。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 判断浏览器种类</span><br><span class="line">function exitFullscreen() &#123;</span><br><span class="line">  if(document.exitFullscreen) &#123;</span><br><span class="line">    document.exitFullscreen();</span><br><span class="line">  &#125; else if(document.mozCancelFullScreen) &#123;</span><br><span class="line">    document.mozCancelFullScreen();</span><br><span class="line">  &#125; else if(document.webkitExitFullscreen) &#123;</span><br><span class="line">    document.webkitExitFullscreen();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 退出全屏模式!</span><br><span class="line">exitFullscreen();</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，<code>exitFullscreen</code>只能由<code>document</code>对象调用，而不是启动全屏时传入的对象。</p>
+<h2 id="全屏属性和事件"><a href="#全屏属性和事件" class="headerlink" title="全屏属性和事件"></a>全屏属性和事件</h2><blockquote>
+<p>不幸的是，全屏属性和事件的相关方法也需要添加浏览器前缀，但我相信很快就不需要这样做了。</p>
+</blockquote>
+<ul>
+<li><code>document.fullScreenElement:</code>全屏显示的网页元素。</li>
+<li><code>document.fullScreenEnabled:</code>判断当前是否处于全屏状态。</li>
+</ul>
+<p><code>fullscreenchange</code>事件会在启动全屏或退出全屏时触发：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;</span><br><span class="line">var fullscreenEnabled = document.fullscreenEnabled || document.mozFullScreenEnabled || document.webkitFullscreenEnabled;</span><br></pre></td></tr></table></figure>
+
+<p>你仍然可以使用上面判断浏览器种类的方法给这个事件加上前缀。</p>
+<h2 id="全屏样式-CSS"><a href="#全屏样式-CSS" class="headerlink" title="全屏样式 CSS"></a>全屏样式 CSS</h2><blockquote>
+<p>各种浏览器都提供了一个非常有用的全屏模式时的 css 样式规则：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">:-webkit-full-screen &#123;</span><br><span class="line">  /* properties */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">:-moz-full-screen &#123;</span><br><span class="line">  /* properties */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">:-ms-fullscreen &#123;</span><br><span class="line">  /* properties */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">:full-screen &#123; /*pre-spec */</span><br><span class="line">  /* properties */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">:fullscreen &#123; /* spec */</span><br><span class="line">  /* properties */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* deeper elements */</span><br><span class="line">:-webkit-full-screen video &#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">  height: 100%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* styling the backdrop*/</span><br><span class="line">::backdrop &#123;</span><br><span class="line">  /* properties */</span><br><span class="line">&#125;</span><br><span class="line">::-ms-backdrop &#123;</span><br><span class="line">  /* properties */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有些情况下，WebKit 样式会出现一些问题，你最好把这些样式保持简洁。</p>
+<p>这些全屏 API 都超级的简单，而且超级的有用。我第一次是在 MDN’s BananaBread demo 中看到这个 API 的，那是一个枪击游戏，正好需要全屏化，它使用了事件监听来检测全屏状态。记住这些好用的 API，需要的时候可以顺手拈来。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/浏览器/" rel="tag"># 浏览器</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/论版权保护的重要性.html" rel="next" title="论版权保护的重要性">
+                  <i class="fa fa-chevron-left"></i> 论版权保护的重要性
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/Mac（OSX）使用VPN小技巧——国内外访问分流.html" rel="prev" title="Mac（OSX）使用VPN小技巧——国内外访问分流">
+                  Mac（OSX）使用VPN小技巧——国内外访问分流 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/logo.png"
+      alt="dctxf">
+  <p class="site-author-name" itemprop="name">dctxf</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/dctxf" title="GitHub &rarr; https://github.com/dctxf" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/" title="Weibo &rarr; "><i class="fa fa-fw fa-globe"></i>Weibo</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/dctxf" title="Twitter &rarr; dctxf"><i class="fa fa-fw fa-globe"></i>Twitter</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/dctxf" title="FB Page &rarr; dctxf"><i class="fa fa-fw fa-globe"></i>FB Page</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://iwuly.com/" title="http://iwuly.com/" rel="noopener" target="_blank">iwuly</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="http://mybulesea.github.io/" title="http://mybulesea.github.io/" rel="noopener" target="_blank">深蓝</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="http://chayangge.com/" title="http://chayangge.com/" rel="noopener" target="_blank">插秧哥</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#启动全屏"><span class="nav-number">1.</span> <span class="nav-text">启动全屏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#退出全屏模式"><span class="nav-number">2.</span> <span class="nav-text">退出全屏模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全屏属性和事件"><span class="nav-number">3.</span> <span class="nav-text">全屏属性和事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全屏样式-CSS"><span class="nav-number">4.</span> <span class="nav-text">全屏样式 CSS</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dctxf</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://dctxf.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://dctxf.com/各种浏览器全屏模式的方法、属性和事件介绍.html";
+    this.page.identifier = "各种浏览器全屏模式的方法、属性和事件介绍.html";
+    this.page.title = '各种浏览器全屏模式的方法、属性和事件介绍';};
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dctxf.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    $(function() {
+      var offsetTop = $('#comments').offset().top - $(window).height();
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        window.addEventListener('load', loadComments, false);
+      } else {
+        $(window).on('scroll.disqus_scroll', function() {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
+          var offsetTop = $('#comments').offset().top - $(window).height();
+          var scrollTop = $(window).scrollTop();
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            $(window).off('.disqus_scroll');
+            loadComments();
+          }
+        });
+      }
+    });
+  
+</script>
+
+</body>
+</html>

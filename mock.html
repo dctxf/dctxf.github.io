@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="generator" content="Hexo 3.9.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/apple-touch-icon-next.png?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    save_scroll: false,
+    copycode: {"enable":true,"show_result":true,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="公司做项目自从前后分离之后，接口联调成了最耗时的事情。为了解决这个问题尝试下 mock 数据。 采用了以下技术  mockjs json-server  由于我们用的前端框架为 vue，这里就用 vue 做例子了">
+<meta name="keywords" content="前端,vue,前后分离,mock">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前后分离之Mock数据">
+<meta property="og:url" content="https://dctxf.com/mock.html">
+<meta property="og:site_name" content="门口摔倒的老大爷">
+<meta property="og:description" content="公司做项目自从前后分离之后，接口联调成了最耗时的事情。为了解决这个问题尝试下 mock 数据。 采用了以下技术  mockjs json-server  由于我们用的前端框架为 vue，这里就用 vue 做例子了">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-05T09:56:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前后分离之Mock数据">
+<meta name="twitter:description" content="公司做项目自从前后分离之后，接口联调成了最耗时的事情。为了解决这个问题尝试下 mock 数据。 采用了以下技术  mockjs json-server  由于我们用的前端框架为 vue，这里就用 vue 做例子了">
+  <link rel="alternate" href="/rss.xml" title="门口摔倒的老大爷" type="application/atom+xml">
+  <link rel="canonical" href="https://dctxf.com/mock">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>前后分离之Mock数据 | 门口摔倒的老大爷</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9ef591dac562902e43858b296afe9979";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+  <style>
+    #jinrishici-sentence{
+      background-color:#fff;
+      border-radius: initial;
+      box-shadow: 0 2px 20px 0 rgba(0,0,0,0.06);
+      min-height: auto;
+      padding: 12px;
+    }
+  </style>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <div class="container sidebar-position-left">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">门口摔倒的老大爷</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags<span class="badge">40</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories<span class="badge">5</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives<span class="badge">58</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+      </li>
+    
+  </ul>
+
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+    </div>
+</nav>
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="jinrishici-sentence">正在加载今日诗词....</div>
+            
+
+          <div id="content" class="content page-post-detail">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dctxf.com/mock.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dctxf">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="门口摔倒的老大爷">
+    </span>
+      <header class="post-header">
+
+        
+          <h2 class="post-title" itemprop="name headline">前后分离之Mock数据
+
+            
+          </h2>
+        
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-06-05 17:56:24 / Modified: 17:56:52" itemprop="dateCreated datePublished" datetime="2019-06-05T17:56:24+08:00">2019-06-05</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+            
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/mock.html#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="mock.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>公司做项目自从前后分离之后，接口联调成了最耗时的事情。为了解决这个问题尝试下 mock 数据。</p>
+<p>采用了以下技术</p>
+<ul>
+<li><a href="http://mockjs.com/" target="_blank" rel="noopener">mockjs</a></li>
+<li><a href="https://github.com/typicode/json-server" target="_blank" rel="noopener">json-server</a></li>
+</ul>
+<p>由于我们用的前端框架为 vue，这里就用 vue 做例子了</p>
+<a id="more"></a>
+
+<h2 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h2><p>基本架构是<code>vue-cli3</code>的基本架构，相比前者多了<code>mock</code>文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">|- mock</span><br><span class="line">    |- api // 动态mock数据</span><br><span class="line">        |- news.json</span><br><span class="line">    |- data // 静态mock数据</span><br><span class="line">        |- user.json</span><br><span class="line">    |- mock.js // mockjs</span><br><span class="line">    |- routes.js // 路由重写</span><br><span class="line">    |- server.js // mock服务</span><br><span class="line">|- public</span><br><span class="line">|- src</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="server-js"><a href="#server-js" class="headerlink" title="server.js"></a>server.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> jsonServer = <span class="built_in">require</span>(<span class="string">'json-server'</span>)</span><br><span class="line"><span class="keyword">const</span> server = jsonServer.create()</span><br><span class="line"><span class="keyword">const</span> mock = <span class="built_in">require</span>(<span class="string">'./mock'</span>) <span class="comment">// 动态数据</span></span><br><span class="line"><span class="keyword">const</span> routes = <span class="built_in">require</span>(<span class="string">'./routes'</span>)</span><br><span class="line"><span class="comment">// Support middleware</span></span><br><span class="line"><span class="keyword">const</span> middleware = jsonServer.defaults()</span><br><span class="line">server.use(middleware)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> _ = <span class="built_in">require</span>(<span class="string">'underscore'</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> mockDir = path.join(__dirname, <span class="string">'data'</span>)</span><br><span class="line"><span class="comment">// 支持动态数据 mockjs 数据</span></span><br><span class="line"><span class="keyword">const</span> base = mock()</span><br><span class="line"><span class="comment">// 支持多个静态数据 json文件</span></span><br><span class="line"><span class="keyword">const</span> files = fs.readdirSync(mockDir)</span><br><span class="line">files.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">file</span>) </span>&#123;</span><br><span class="line">  _.extend(base, <span class="built_in">require</span>(path.resolve(mockDir, file)))</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> router = jsonServer.router(base)</span><br><span class="line"><span class="comment">// 增加路由重写</span></span><br><span class="line"><span class="keyword">const</span> rewriteRoutes = jsonServer.rewriter(routes)</span><br><span class="line">server.use(rewriteRoutes)</span><br><span class="line"><span class="comment">// 添加自定义路由</span></span><br><span class="line">server.use(router)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回自定义格式数据</span></span><br><span class="line">router.render = <span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  res.jsonp(&#123;</span><br><span class="line">    data: res.locals.data,</span><br><span class="line">    errcode: <span class="number">200</span>,</span><br><span class="line">    errmsg: <span class="string">''</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 启动服务</span></span><br><span class="line">server.listen(<span class="number">9090</span>, () =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'JSON Server is running'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="routes-js"><a href="#routes-js" class="headerlink" title="routes.js"></a>routes.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="string">'/mock/*'</span>: <span class="string">'/$1'</span>,</span><br><span class="line">  <span class="string">'/posts/:id'</span>: <span class="string">'/posts'</span>,</span><br><span class="line">  <span class="string">'/blog/:resource/:id/show'</span>: <span class="string">'/:resource/:id'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="mock-js"><a href="#mock-js" class="headerlink" title="mock.js"></a>mock.js</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用mockjs模拟生成数据</span></span><br><span class="line"><span class="keyword">const</span> Mock = <span class="built_in">require</span>(<span class="string">'mockjs'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> _ = <span class="built_in">require</span>(<span class="string">'underscore'</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> mockDir = path.join(__dirname, <span class="string">'api'</span>)</span><br><span class="line"><span class="comment">// 支持动态数据 mockjs 数据</span></span><br><span class="line"><span class="keyword">const</span> base = &#123;&#125;</span><br><span class="line"><span class="comment">// 支持多个静态数据 json文件</span></span><br><span class="line"><span class="keyword">const</span> files = fs.readdirSync(mockDir)</span><br><span class="line">files.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">file</span>) </span>&#123;</span><br><span class="line">  _.extend(base, <span class="built_in">require</span>(path.resolve(mockDir, file)))</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// mock 数据</span></span><br><span class="line"><span class="keyword">const</span> mock = Mock.mock(base)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> mock</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="data-静态-mock-数据"><a href="#data-静态-mock-数据" class="headerlink" title="data 静态 mock 数据"></a>data 静态 mock 数据</h3><p>以<code>user.json</code>为例</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"user"</span>: &#123;</span><br><span class="line">    <span class="attr">"id"</span>: <span class="number">890</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"演示001"</span>,</span><br><span class="line">    <span class="attr">"status"</span>: <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="api-动态-mock-数据"><a href="#api-动态-mock-数据" class="headerlink" title="api 动态 mock 数据"></a>api 动态 mock 数据</h3><p>以<code>course.json</code>为例</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"course|227"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"id|+1"</span>: <span class="number">1000</span>,</span><br><span class="line">      <span class="attr">"course_name"</span>: <span class="string">"@ctitle(5,10)"</span>,</span><br><span class="line">      <span class="attr">"autor"</span>: <span class="string">"@cname"</span>,</span><br><span class="line">      <span class="attr">"college"</span>: <span class="string">"@ctitle(6)"</span>,</span><br><span class="line">      <span class="attr">"category_Id|1-6"</span>: <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="package-json-配置"><a href="#package-json-配置" class="headerlink" title="package.json 配置"></a>package.json 配置</h2><p>增加<code>npm scripts</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">    "mock": "node mock/server.js"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="vue-config-js-配置"><a href="#vue-config-js-配置" class="headerlink" title="vue.config.js 配置"></a>vue.config.js 配置</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">devServer: &#123;</span><br><span class="line">   proxy: &#123;</span><br><span class="line">     <span class="string">'/mock'</span>: &#123;</span><br><span class="line">       target: <span class="string">'http://localhost:9090'</span>,</span><br><span class="line">       changeOrigin: <span class="literal">true</span></span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用占位符"><a href="#常用占位符" class="headerlink" title="常用占位符"></a>常用占位符</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&quot;自然数&quot;: &quot;@natural&quot;,</span><br><span class="line">&quot;浮点数&quot;: &quot;@float&quot;,</span><br><span class="line">&quot;日期&quot;: &quot;@date&quot;,</span><br><span class="line">&quot;时间&quot;: &quot;@time&quot;,</span><br><span class="line">&quot;标题&quot;: &quot;@title&quot;,</span><br><span class="line">&quot;中文名字&quot;: &quot;@cname&quot;,</span><br><span class="line">&quot;网址&quot;: &quot;@url&quot;,</span><br><span class="line">&quot;域名&quot;: &quot;@domain&quot;,</span><br><span class="line">&quot;邮箱&quot;: &quot;@email&quot;,</span><br><span class="line">&quot;段落&quot;: &quot;@paragraph&quot;,</span><br><span class="line">&quot;句子&quot;: &quot;@sentence&quot;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/前端/" rel="tag"># 前端</a>
+            
+              <a href="/tags/vue/" rel="tag"># vue</a>
+            
+              <a href="/tags/前后分离/" rel="tag"># 前后分离</a>
+            
+              <a href="/tags/mock/" rel="tag"># mock</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/from-the-position-feelings-opinions-into-goals-methods-and-action.html" rel="next" title="从立场、感受、意见转换成目标、方法、行动">
+                  <i class="fa fa-chevron-left"></i> 从立场、感受、意见转换成目标、方法、行动
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/关于学习和未来，孩子必须明白这10个真相.html" rel="prev" title="关于学习和未来，孩子必须明白这10个真相">
+                  关于学习和未来，孩子必须明白这10个真相 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/logo.png"
+      alt="dctxf">
+  <p class="site-author-name" itemprop="name">dctxf</p>
+  <div class="site-description motion-element" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/rss.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/dctxf" title="GitHub &rarr; https://github.com/dctxf" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/" title="Weibo &rarr; "><i class="fa fa-fw fa-globe"></i>Weibo</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/dctxf" title="Twitter &rarr; dctxf"><i class="fa fa-fw fa-globe"></i>Twitter</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="/dctxf" title="FB Page &rarr; dctxf"><i class="fa fa-fw fa-globe"></i>FB Page</a>
+      </span>
+    
+  </div>
+
+
+  <div class="links-of-blogroll motion-element links-of-blogroll-block">
+    <div class="links-of-blogroll-title">
+      <i class="fa  fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://iwuly.com/" title="http://iwuly.com/" rel="noopener" target="_blank">iwuly</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="http://mybulesea.github.io/" title="http://mybulesea.github.io/" rel="noopener" target="_blank">深蓝</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="http://chayangge.com/" title="http://chayangge.com/" rel="noopener" target="_blank">插秧哥</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        </div>
+      </div>
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#项目结构"><span class="nav-number">1.</span> <span class="nav-text">项目结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#server-js"><span class="nav-number">1.1.</span> <span class="nav-text">server.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#routes-js"><span class="nav-number">1.2.</span> <span class="nav-text">routes.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mock-js"><span class="nav-number">1.3.</span> <span class="nav-text">mock.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#data-静态-mock-数据"><span class="nav-number">1.4.</span> <span class="nav-text">data 静态 mock 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#api-动态-mock-数据"><span class="nav-number">1.5.</span> <span class="nav-text">api 动态 mock 数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#package-json-配置"><span class="nav-number">2.</span> <span class="nav-text">package.json 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-config-js-配置"><span class="nav-number">3.</span> <span class="nav-text">vue.config.js 配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用占位符"><span class="nav-number">4.</span> <span class="nav-text">常用占位符</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dctxf</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+  </div>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+<script src="/js/utils.js?v=7.3.0"></script>
+  <script src="/js/motion.js?v=7.3.0"></script>
+
+
+  <script src="/js/affix.js?v=7.3.0"></script>
+  <script src="/js/schemes/pisces.js?v=7.3.0"></script>
+
+
+
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.3.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+  
+  <script src="/js/scrollspy.js?v=7.3.0"></script>
+<script src="/js/post-details.js?v=7.3.0"></script>
+
+
+    
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://dctxf.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://dctxf.com/mock.html";
+    this.page.identifier = "mock.html";
+    this.page.title = '前后分离之Mock数据';};
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://dctxf.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    $(function() {
+      var offsetTop = $('#comments').offset().top - $(window).height();
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        window.addEventListener('load', loadComments, false);
+      } else {
+        $(window).on('scroll.disqus_scroll', function() {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
+          var offsetTop = $('#comments').offset().top - $(window).height();
+          var scrollTop = $(window).scrollTop();
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            $(window).off('.disqus_scroll');
+            loadComments();
+          }
+        });
+      }
+    });
+  
+</script>
+
+</body>
+</html>
